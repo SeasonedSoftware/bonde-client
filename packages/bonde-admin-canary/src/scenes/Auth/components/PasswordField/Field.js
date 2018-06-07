@@ -1,8 +1,7 @@
 import React from 'react'
 import { Checkbox, FormField, Input } from 'bonde-styleguide'
-import { translate } from 'services/i18n'
 
-class PasswordField extends React.Component {
+class Field extends React.Component {
 
   state = { showPassword: false }
 
@@ -31,4 +30,4 @@ class PasswordField extends React.Component {
   }
 }
 
-export default translate('auth')(PasswordField)
+export default Field

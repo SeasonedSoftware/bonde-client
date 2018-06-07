@@ -4,12 +4,12 @@ import { ProviderRedux } from './services/redux'
 import { ProviderGraphQL } from './services/graphql'
 import { ProviderLastLocation } from './services/router'
 // Routes
-import { Root as LoggedRoot } from './scenes/Logged'
-import { Root as AuthRoot } from './scenes/Auth'
-import { PrivateRoute, PublicRoute, Route } from './services/auth'
-import { NotFound } from './components'
+import LoggedScene from 'scenes/Logged'
+import AuthScene from 'scenes/Auth'
+import { PrivateRoute, PublicRoute, Route } from 'services/auth'
+import { NotFound } from 'components'
 
-const Root = () => (
+const App = () => (
   <ProviderGraphQL>
     <ProviderRedux> 
       <Router>
@@ -18,13 +18,13 @@ const Root = () => (
             <PublicRoute
               path='/auth'
               redirectTo='/admin'
-              component={AuthRoot}
+              component={AuthScene}
             />
             
             <PrivateRoute
               path='/admin'
               redirectTo='/auth/login'
-              component={LoggedRoot}
+              component={LoggedScene}
             />
 
             <Redirect exact from='/' to='/admin' />
@@ -37,4 +37,4 @@ const Root = () => (
   </ProviderGraphQL>
 )
 
-export default Root
+export default App

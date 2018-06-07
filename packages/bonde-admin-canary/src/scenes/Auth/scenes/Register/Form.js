@@ -1,7 +1,5 @@
 import React from 'react'
-import { AuthAPI } from 'services/auth'
-import { translate } from 'services/i18n'
-import REGISTER from './register.graphql'
+import mutation from './mutation'
 
 import {
   Button,
@@ -14,24 +12,11 @@ import {
 import { FormGraphQL, Field } from 'components/Form'
 import { Link } from 'components'
 import { isEmail, isEmpty, min } from 'services/validations'
-import { PasswordField } from '../components'
+import { PasswordField } from '../../components'
+import submit from './submit'
 
-const AuthRegister = ({ t }) => (
-  <FormGraphQL
-    mutation={REGISTER}
-    onSubmit={(values, mutation) => {
-      return mutation({
-        variables: { user: { data: JSON.stringify(values) } }
-      })
-      .then(({ data }) => {
-        if (data.register && !data.register.jwtToken) {
-          return Promise.reject({ formError: 'register is fail.' })
-        }
-        AuthAPI.login({ jwtToken: data.register.jwtToken })
-        return Promise.resolve()
-      })
-    }}
-  >
+const Form = ({ t }) => (
+  <FormGraphQL mutation={mutation} onSubmit={submit}>
     <Flexbox colSize='49.1%' spacing='between'>
       <Field
         name='first_name'
@@ -71,7 +56,7 @@ const AuthRegister = ({ t }) => (
         else if (min(value, 6)) return t('fields.password.errors.min')
       }}
     />
-    <Flexbox vertical padding='0 0 24px'>
+    <Flexbox vertical padding={{ bottom: 24 }}>
       <Checkbox>{t('links.stayConnected')}</Checkbox>
     </Flexbox>
     <Flexbox middle spacing='between'>
@@ -86,4 +71,4 @@ const AuthRegister = ({ t }) => (
   </FormGraphQL>
 )
 
-export default translate('auth')(AuthRegister)
+export default Form

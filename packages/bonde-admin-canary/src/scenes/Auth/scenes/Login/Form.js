@@ -1,8 +1,4 @@
 import React from 'react'
-import { AuthAPI } from 'services/auth'
-import { translate } from 'services/i18n'
-import AUTHENTICATE from './authenticate.graphql'
-
 import {
   Button,
   Checkbox,
@@ -10,29 +6,15 @@ import {
   FormField,
   Input
 } from 'bonde-styleguide'
-
-import { FormGraphQL, Field } from 'components/Form'
 import { Link } from 'components'
+import { FormGraphQL, Field } from 'components/Form'
 import { isEmail, isEmpty } from 'services/validations'
-import { PasswordField } from '../components'
+import { PasswordField } from '../../components'
+import mutation from './mutation'
+import createSubmit from './createSubmit'
 
-const AuthLogin = ({ t }) => (
-  <FormGraphQL
-    mutation={AUTHENTICATE}
-    onSubmit={(values, mutation) => {
-      return mutation({ variables: values })
-        .then(({ data }) => {
-          if (data.authenticate && !data.authenticate.jwtToken) {
-            return Promise.reject({
-              formError: t('form.authError')
-            })
-          }
-          AuthAPI
-            .login({ jwtToken: data.authenticate.jwtToken })
-          return Promise.resolve()
-        })
-    }}
-  >
+const Form = ({ t }) => (
+  <FormGraphQL mutation={mutation} onSubmit={createSubmit(t)}>
     <Field
       name='email'
       label={t('fields.email.label')}
@@ -51,7 +33,7 @@ const AuthLogin = ({ t }) => (
       component={PasswordField}
       validate={value => isEmpty(value) && t('fields.password.errors.isEmptyLogin')}
     />
-    <Flexbox spacing='between' padding='0 0 24px'>
+    <Flexbox spacing='between' padding={{ bottom: 24 }}>
       <Checkbox>{t('links.stayConnected')}</Checkbox>
     </Flexbox>
     <Flexbox middle spacing='between'>
@@ -68,4 +50,4 @@ const AuthLogin = ({ t }) => (
   </FormGraphQL>
 )
 
-export default translate('auth')(AuthLogin)
+export default Form
