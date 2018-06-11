@@ -7,7 +7,7 @@ import { CommunitiesDropdown, UserDropdown } from './Navigation'
 import Footer from './PageFooter'
 
 class ResizePage extends React.Component {
-  
+
   constructor (props) {
     super(props)
     this.state = { height: 0 }
@@ -50,7 +50,7 @@ class ResizePage extends React.Component {
             {ActionMenu && (
               <Tourtip
                 tourName='tour'
-                title='Fique de olho nesse caminho'
+                title='Fique de olho nesse cantinho'
                 description='Seu perfil, suas notificações e as principais ações sempre ficam por aqui.'
                 step={2}
                 placement='bottom-right'
