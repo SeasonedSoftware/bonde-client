@@ -13,7 +13,7 @@ const HomeActionMenu = translate('home')(
       <ActionButton
         dark
         to='/admin/mobilization/add'
-        label={t('actionButtons.mobilization')} 
+        label={t('actionButtons.mobilization')}
       />
       <ActionButton
         to='/admin/community/add'
@@ -37,7 +37,7 @@ const HomePage = translate('home')(
                 <Tourtip
                   tourName='tour'
                   title='Acesse suas comunidades'
-                  description='A comunidade é um grupo que se une por uma causa. A partir dela você pode criar mobilizações e convidar outras pessoas para chegar junto.'
+                  description={['A ', <b>comunidade</b>, ' é um grupo que se une por uma causa. A partir dela você pode criar mobilizações e convidar outras pessoas para chegar junto.']}
                   step={3}
                 >
                   <CommunitiesGadget />
