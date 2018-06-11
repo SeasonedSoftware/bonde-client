@@ -59,8 +59,8 @@ const HomePage = translate('home')(
           <Cell size={[12, 12, 12]}>
             <Tourtip
               tourName='tour'
-              title='Crie mobilizações pra causar'
-              description='É através das mobilizações que você vai gerar um impacto. Aqui você pode ver as mobs das suas comunidades e acessá-las com um clique.'
+              title='Apoie as causas que acredita'
+              description='Acesse as mobilizações mais recentes relacionadas às causas que você apoia e ajude outras comunidades a fazerem a diferença!'
               step={5}
               placement='top-left'
             >
