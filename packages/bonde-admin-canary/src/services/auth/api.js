@@ -1,5 +1,6 @@
 import { store } from 'services/redux'
 import { db } from 'services/session'
+import { graphqlApi } from 'services/graphql'
 import * as actionTypes from './redux/actionTypes'
 
 const { dispatch, getState } = store
@@ -18,7 +19,7 @@ const { dispatch, getState } = store
  *
  */
 const AuthAPI = {
-  
+
   login: (user) => new Promise((resolve, reject) => {
     dispatch({ type: actionTypes.LOGIN, payload: user })
     db.set('user', user).write()
@@ -28,9 +29,10 @@ const AuthAPI = {
   logout: () => new Promise((resolve, reject) => {
     dispatch({ type: actionTypes.LOGOUT })
     db.unset('user').write()
+    graphqlApi.resetStore()
     return resolve()
   }),
-  
+
   isAuthenticated: () => !!getState().auth.user,
 
   getToken: () => {
