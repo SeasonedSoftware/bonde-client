@@ -1,0 +1,44 @@
+version: 2
+jobs:
+  build:
+
+    docker:
+      - image: circleci/node:9
+
+    working_directory: ~/mern-starter
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
+
+      - run:
+          name: Install Docker Compose
+          command: |
+            curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+
+      - setup_remote_docker
+
+      - run:
+          name: Download, build and start containers
+          command: docker-compose up -d
+
+      - run:
+          name: Instal NPM dependencies
+          command: npm install
+
+      - run:
+          name: Bootstrap lerna
+          command: node_modules/.bin/lerna bootstrap
+
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
+          paths:
+            - ./node_modules
+
+      - run:
+          name: Run tests
+          command: ./node_modules/.bin/lerna run test --parallel
